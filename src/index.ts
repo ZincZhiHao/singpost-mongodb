@@ -13,7 +13,7 @@ const sectorSchema = new Schema({
   beats: [
     {
       //unique_id: Number,
-      beatid: Number,
+      beat_id: Number,
       sequences: [
         {
           seq_id: Number,
