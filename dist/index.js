@@ -20,32 +20,6 @@ const sectorSchema = new Schema({
                     latitude: Number,
                     types: String,
                     unique_id: String,
-                    num_of_units: Number,
-                    shipments: [
-                        {
-                            date: String,
-                            num_of_mails: Number,
-                            num_of_packets: Number,
-                            bundles_volume: Number,
-                            bundles_weight: Number,
-                            bundles_dwell_time: Number,
-                            num_of_small_parcels: Number,
-                            small_parcels_volume: Number,
-                            small_parcels_weight: Number,
-                            small_parcels_dwell_time: Number,
-                            small_parcels_cost: Number,
-                            num_of_medium_parcels: Number,
-                            medium_parcels_volume: Number,
-                            medium_parcels_weight: Number,
-                            medium_parcels_dwell_time: Number,
-                            medium_parcels_cost: Number,
-                            num_of_large_parcels: Number,
-                            large_parcels_volume: Number,
-                            large_parcels_weight: Number,
-                            large_parcels_dwell_time: Number,
-                            large_parcels_cost: Number
-                        }
-                    ]
                 }
             ],
             resources: [
@@ -76,6 +50,31 @@ const sectorSchema = new Schema({
     }
 });
 const Sector = mongoose.model('Sector', sectorSchema);
+const shipmentSchema = new Schema({
+    date: String,
+    num_of_units: Number,
+    num_of_mails: Number,
+    num_of_packets: Number,
+    bundles_volume: Number,
+    bundles_weight: Number,
+    bundles_dwell_time: Number,
+    num_of_small_parcels: Number,
+    small_parcels_volume: Number,
+    small_parcels_weight: Number,
+    small_parcels_dwell_time: Number,
+    small_parcels_cost: Number,
+    num_of_medium_parcels: Number,
+    medium_parcels_volume: Number,
+    medium_parcels_weight: Number,
+    medium_parcels_dwell_time: Number,
+    medium_parcels_cost: Number,
+    num_of_large_parcels: Number,
+    large_parcels_volume: Number,
+    large_parcels_weight: Number,
+    large_parcels_dwell_time: Number,
+    large_parcels_cost: Number
+});
+const Shipment = mongoose.model('Shipment', shipmentSchema);
 const masterDataSchema = new Schema({
     title: String,
     sectors: { type: Schema.Types.ObjectId, ref: 'Sector' },
@@ -190,12 +189,11 @@ const typeDefs = `
     latitude: Float
     types: String
     unique_id: String
-    num_of_units: Int
-    shipments: [Shipment]
   }
 
   type Shipment {
     date: String
+    num_of_units: Int
     num_of_mails: Int
     num_of_packets: Int
     bundles_volume: Float
@@ -255,6 +253,7 @@ const typeDefs = `
   type Query {
     sectors: [Sector]
     masterdata: [MasterData]
+    shipments: [Shipment]
   }
 `;
 // GraphQL resolvers
@@ -265,6 +264,9 @@ const resolvers = {
         },
         sectors: async () => {
             return await Sector.find();
+        },
+        shipments: async () => {
+            return await Shipment.find();
         },
     },
 };
